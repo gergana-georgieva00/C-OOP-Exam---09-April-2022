@@ -42,13 +42,16 @@ namespace Formula1.Models
 
         public double EngineDisplacement
         {
-            get;
-            private set;
+            get => this.engineDisplacement;
+            private set
+            {
+                if (value < 1.6 || value > 2)
+                    throw new ArgumentException($"Invalid car engine displacement: {value}.");
+                this.engineDisplacement = value;
+            }
         }
 
         public double RaceScoreCalculator(int laps)
-        {
-            throw new NotImplementedException();
-        }
+        => this.EngineDisplacement / this.Horsepower * laps;
     }
 }
