@@ -131,7 +131,46 @@ namespace Formula1.Core
 
         public string StartRace(string raceName)
         {
-            throw new NotImplementedException();
+            if (this.raceRepository.FindByName(raceName) is null)
+            {
+                throw new NullReferenceException($"Race {raceName} does not exist.");
+            }
+            if (this.raceRepository.FindByName(raceName).Pilots.Count < 3)
+            {
+                throw new InvalidOperationException($"Race {raceName} cannot start with less than three participants.");
+            }
+            if (this.raceRepository.FindByName(raceName).TookPlace == true)
+            {
+                throw new InvalidOperationException($"Can not execute race {raceName}.");
+            }
+
+            var race = this.raceRepository.FindByName(raceName);
+            int numberOfLaps = race.NumberOfLaps;
+
+            StringBuilder sb = new StringBuilder();
+            int counter = 0;
+            foreach (var pilot in race.Pilots.OrderByDescending(p => p.Car.RaceScoreCalculator(numberOfLaps)))
+            {
+                if (counter == 3)
+                {
+                    break;
+                }
+
+                switch (counter)
+                {
+                    case 1:
+                        sb.AppendLine($"Pilot {pilot.FullName} wins the {race.RaceName} race.");
+                        break;
+                    case 2:
+                        sb.AppendLine($"Pilot {pilot.FullName} is second in the {race.RaceName} race.");
+                        break;
+                    case 3:
+                        sb.AppendLine($"Pilot {pilot.FullName} is third in the {race.RaceName} race.");
+                        break;
+                }
+            }
+
+            return sb.ToString().Trim();
         }
     }
 }
