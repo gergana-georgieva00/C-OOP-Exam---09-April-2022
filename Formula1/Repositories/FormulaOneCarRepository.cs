@@ -15,7 +15,7 @@ namespace Formula1.Repositories
             this.models = new List<FormulaOneCar>();
         }
 
-        public IReadOnlyCollection<FormulaOneCar> Models => this.models;
+        public IReadOnlyCollection<FormulaOneCar> Models => this.models.AsReadOnly();
 
         public void Add(FormulaOneCar model)
         {
