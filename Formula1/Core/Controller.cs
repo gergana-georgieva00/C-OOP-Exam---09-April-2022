@@ -71,7 +71,15 @@ namespace Formula1.Core
 
         public string CreateRace(string raceName, int numberOfLaps)
         {
-            throw new NotImplementedException();
+            var race = new Race(raceName, numberOfLaps);
+
+            if (this.raceRepository.Models.Any(r => r.RaceName == raceName))
+            {
+                throw new InvalidOperationException($"Race {raceName} is already created.");
+            }
+
+            this.raceRepository.Add(race);
+            return $"Race {raceName} is created.";
         }
 
         public string PilotReport()
