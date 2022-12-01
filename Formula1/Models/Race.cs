@@ -14,6 +14,7 @@ namespace Formula1.Models
         {
             this.RaceName = raceName;
             this.NumberOfLaps = numberOfLaps;
+            this.TookPlace = false;
         }
 
         public string RaceName 
@@ -44,12 +45,13 @@ namespace Formula1.Models
 
         public void AddPilot(IPilot pilot)
         {
-            throw new NotImplementedException();
+            this.Pilots.Add(pilot);
         }
 
         public string RaceInfo()
-        {
-            throw new NotImplementedException();
-        }
+            => $"The {this.RaceName} race has:" + Environment.NewLine +
+                $"Participants: {this.Pilots.Count}" + Environment.NewLine +
+                $"Number of laps: {this.NumberOfLaps}" + Environment.NewLine +
+                $"Took place: {(TookPlace ? "Yes" : "No")}";
     }
 }
