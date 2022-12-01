@@ -107,12 +107,26 @@ namespace Formula1.Core
 
         public string PilotReport()
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var pilot in pilotRepository.Models.OrderByDescending(p => p.NumberOfWins))
+            {
+                sb.AppendLine(pilot.ToString());
+            }
+
+            return sb.ToString().Trim();
         }
 
         public string RaceReport()
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var race in raceRepository.Models.Where(m => m.TookPlace == true))
+            {
+                sb.AppendLine(race.RaceInfo());
+            }
+
+            return sb.ToString().Trim();
         }
 
         public string StartRace(string raceName)
