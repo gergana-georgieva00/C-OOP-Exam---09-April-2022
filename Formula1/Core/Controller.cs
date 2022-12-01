@@ -41,7 +41,18 @@ namespace Formula1.Core
 
         public string AddPilotToRace(string raceName, string pilotFullName)
         {
-            throw new NotImplementedException();
+            if (!(this.raceRepository.FindByName(raceName) is null))
+            {
+                throw new NullReferenceException($"Race {raceName} does not exist.");
+            }
+            if (this.pilotRepository.FindByName(pilotFullName) is null || !(this.pilotRepository.FindByName(pilotFullName).Car is null)
+                || this.pilotRepository.FindByName(pilotFullName).CanRace == false)
+            {
+                throw new InvalidOperationException($"Can not add pilot {pilotFullName} to the race.");
+            }
+
+            this.raceRepository.FindByName(raceName).AddPilot(this.pilotRepository.FindByName(pilotFullName));
+            return $"Pilot {pilotFullName} is added to the {raceName} race.";
         }
 
         public string CreateCar(string type, string model, int horsepower, double engineDisplacement)
