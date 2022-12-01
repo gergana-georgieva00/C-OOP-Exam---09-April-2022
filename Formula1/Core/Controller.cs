@@ -1,8 +1,10 @@
 ﻿using Formula1.Core.Contracts;
+using Formula1.Models;
 using Formula1.Models.Contracts;
 using Formula1.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Formula1.Core
@@ -32,7 +34,26 @@ namespace Formula1.Core
 
         public string CreateCar(string type, string model, int horsepower, double engineDisplacement)
         {
-            throw new NotImplementedException();
+            if (this.formulaOneCarRepository.Models.Any(m => m.Model == model))
+            {
+                throw new InvalidOperationException($"Formula one car {model} is already created.");
+            }
+
+            IFormulaOneCar car;
+            switch (type)
+            {
+                case "Ferrari":
+                    car = new Ferrari(model, horsepower, engineDisplacement);
+                    break;
+                case "Williams":
+                    car = new Williams(model, horsepower, engineDisplacement);
+                    break;
+                default:
+                    throw new InvalidOperationException($"Formula one car type {type} is not valid.");
+            }
+
+            this.formulaOneCarRepository.Add(car);
+            return $"Car {type}, model {model} is created.";
         }
 
         public string CreatePilot(string fullName)
