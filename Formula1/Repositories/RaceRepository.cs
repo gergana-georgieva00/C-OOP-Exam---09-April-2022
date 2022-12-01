@@ -1,4 +1,5 @@
 ﻿using Formula1.Models;
+using Formula1.Models.Contracts;
 using Formula1.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
@@ -6,26 +7,26 @@ using System.Text;
 
 namespace Formula1.Repositories
 {
-    public class RaceRepository : IRepository<Race>
+    public class RaceRepository : IRepository<IRace>
     {
-        private List<Race> models;
+        private List<IRace> models;
 
         public RaceRepository()
         {
-            this.models = new List<Race>();
+            this.models = new List<IRace>();
         }
 
-        public IReadOnlyCollection<Race> Models => this.models.AsReadOnly();
+        public IReadOnlyCollection<IRace> Models => this.models.AsReadOnly();
 
-        public void Add(Race model)
+        public void Add(IRace model)
         {
             this.models.Add(model);
         }
 
-        public Race FindByName(string name)
+        public IRace FindByName(string name)
             => this.models.Find(r => r.RaceName == name);
 
-        public bool Remove(Race model)
+        public bool Remove(IRace model)
             => this.models.Remove(model);
     }
 }

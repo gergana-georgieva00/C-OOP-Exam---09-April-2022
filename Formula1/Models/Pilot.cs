@@ -22,7 +22,7 @@ namespace Formula1.Models.Contracts
             {
                 if (string.IsNullOrWhiteSpace(value) || value.Length < 5)
                     throw new ArgumentException($"Invalid pilot name: {value}.");
-                this.FullName = value;
+                this.fullName = value;
             }
         }
 

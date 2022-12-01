@@ -7,9 +7,9 @@ namespace Formula1.Models
 {
     public abstract class FormulaOneCar : IFormulaOneCar
     {
-        string model;
-        int horsePower;
-        double engineDisplacement;
+        private string model;
+        private int horsePower;
+        private double engineDisplacement;
 
         public FormulaOneCar(string model, int horsePower, double engineDisplacement)
         {

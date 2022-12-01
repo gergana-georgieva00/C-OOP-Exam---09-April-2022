@@ -9,6 +9,7 @@ namespace Formula1.Models
     {
         private string raceName;
         private int numberOfLaps;
+        private List<IPilot> pilots;
 
         public Race(string raceName, int numberOfLaps)
         {
@@ -41,11 +42,11 @@ namespace Formula1.Models
 
         public bool TookPlace  { get; set; }
 
-        public ICollection<IPilot> Pilots { get; private set; }
+        public ICollection<IPilot> Pilots => pilots.AsReadOnly();
 
         public void AddPilot(IPilot pilot)
         {
-            this.Pilots.Add(pilot);
+            this.pilots.Add(pilot);
         }
 
         public string RaceInfo()

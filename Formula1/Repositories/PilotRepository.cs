@@ -6,26 +6,26 @@ using System.Text;
 
 namespace Formula1.Repositories
 {
-    public class PilotRepository : IRepository<Pilot>
+    public class PilotRepository : IRepository<IPilot>
     {
-        private List<Pilot> models;
+        private List<IPilot> models;
 
         public PilotRepository()
         {
-            this.models = new List<Pilot>();
+            this.models = new List<IPilot>();
         }
 
-        public IReadOnlyCollection<Pilot> Models => this.models.AsReadOnly();
+        public IReadOnlyCollection<IPilot> Models => this.models.AsReadOnly();
 
-        public void Add(Pilot model)
+        public void Add(IPilot model)
         {
             this.models.Add(model);
         }
 
-        public Pilot FindByName(string name)
+        public IPilot FindByName(string name)
             => this.models.Find(p => p.FullName == name);
 
-        public bool Remove(Pilot model)
+        public bool Remove(IPilot model)
             => this.models.Remove(model);
     }
 }
