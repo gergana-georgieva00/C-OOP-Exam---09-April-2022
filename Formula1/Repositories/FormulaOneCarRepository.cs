@@ -24,7 +24,7 @@ namespace Formula1.Repositories
         }
 
         public IFormulaOneCar FindByName(string name)
-            => this.models.Find(c => c.GetType().Name == name);
+            => this.models.Find(c => c.Model == name);
 
         public bool Remove(IFormulaOneCar model)
             => this.models.Remove(model);
