@@ -48,7 +48,7 @@ namespace Formula1.Core
             }
             if (this.pilotRepository.FindByName(pilotFullName) is null // pilot does not exist
                 || this.pilotRepository.FindByName(pilotFullName).CanRace == false // pilot cannot race
-                || this.raceRepository.Models.Any(r => r.Pilots.Any(p => p.FullName == pilotFullName))) // pilot is already in the race
+                || this.raceRepository.FindByName(raceName).Pilots.Any(p => p.FullName == pilotFullName)) // pilot is already in the race
             {
                 throw new InvalidOperationException($"Can not add pilot {pilotFullName} to the race.");
             }
