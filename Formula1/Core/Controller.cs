@@ -1,4 +1,5 @@
 ﻿using Formula1.Core.Contracts;
+using Formula1.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,17 @@ namespace Formula1.Core
 {
     public class Controller : IController
     {
+        private PilotRepository pilotRepository;
+        private RaceRepository raceRepository;
+        private FormulaOneCarRepository formulaOneCarRepository;
+
+        public Controller()
+        {
+            this.pilotRepository = new PilotRepository();
+            this.raceRepository = new RaceRepository();
+            this.formulaOneCarRepository = new FormulaOneCarRepository();
+        }
+
         public string AddCarToPilot(string pilotName, string carModel)
         {
             throw new NotImplementedException();
