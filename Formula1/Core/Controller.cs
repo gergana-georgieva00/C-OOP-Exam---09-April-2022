@@ -33,20 +33,22 @@ namespace Formula1.Core
                 throw new NullReferenceException($"Car {carModel} does not exist.");
             }
 
+            var carType = this.formulaOneCarRepository.FindByName(carModel).GetType().Name;
             this.pilotRepository.FindByName(pilotName).AddCar(this.formulaOneCarRepository.FindByName(carModel));
             this.formulaOneCarRepository.Remove(this.formulaOneCarRepository.FindByName(carModel));
 
-            return $"Pilot {pilotName} will drive a {this.formulaOneCarRepository.FindByName(carModel).GetType().Name} {carModel} car.";
+            return $"Pilot {pilotName} will drive a {carType} {carModel} car.";
         }
 
         public string AddPilotToRace(string raceName, string pilotFullName)
         {
-            if (!(this.raceRepository.FindByName(raceName) is null))
+            if (this.raceRepository.FindByName(raceName) is null)
             {
                 throw new NullReferenceException($"Race {raceName} does not exist.");
             }
-            if (this.pilotRepository.FindByName(pilotFullName) is null || !(this.pilotRepository.FindByName(pilotFullName).Car is null)
-                || this.pilotRepository.FindByName(pilotFullName).CanRace == false)
+            if (this.pilotRepository.FindByName(pilotFullName) is null // pilot does not exist
+                || this.pilotRepository.FindByName(pilotFullName).CanRace == false // pilot cannot race
+                || this.raceRepository.Models.Any(r => r.Pilots.Any(p => p.FullName == pilotFullName))) // pilot is already in the race
             {
                 throw new InvalidOperationException($"Can not add pilot {pilotFullName} to the race.");
             }
@@ -144,6 +146,7 @@ namespace Formula1.Core
                 throw new InvalidOperationException($"Can not execute race {raceName}.");
             }
 
+            this.raceRepository.FindByName(raceName).TookPlace = true;
             var race = this.raceRepository.FindByName(raceName);
             int numberOfLaps = race.NumberOfLaps;
 
@@ -156,9 +159,11 @@ namespace Formula1.Core
                     break;
                 }
 
+                counter++;
                 switch (counter)
                 {
                     case 1:
+                        pilot.WinRace();
                         sb.AppendLine($"Pilot {pilot.FullName} wins the {race.RaceName} race.");
                         break;
                     case 2:

@@ -16,6 +16,7 @@ namespace Formula1.Models
             this.RaceName = raceName;
             this.NumberOfLaps = numberOfLaps;
             this.TookPlace = false;
+            pilots = new List<IPilot>();
         }
 
         public string RaceName 
